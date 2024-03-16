@@ -51,9 +51,10 @@ const sendData = asyncHandelr(async (req, res, next) => {
     // };
     // PythonShell.run('main.py', options).then(async messages => {
     //     const target = parseFloat(messages[0].slice(1, -1));
+    const target = Math.round(Math.random())
     const [result] = await (await dbConnection).query(`INSERT INTO data values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
         [id, age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target]);
-    res.status(200).json({ Target: Math.round(Math.random()) });
+    res.status(200).json({ Target: target });
     // });
 });
 
