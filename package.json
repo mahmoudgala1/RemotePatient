@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon RemotePatient.js"
+    "start": "node RemotePatient.js"
   },
   "keywords": [],
   "author": "",
