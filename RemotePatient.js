@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "config.env" });
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -6,7 +7,6 @@ const dbConnection = require("./config/database");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middlewares/errorMiddleware");
 
-dotenv.config({ path: "config.env" });
 process.env.TZ = process.env.TIMEZONE;
 const RemotePatient = express();
 
