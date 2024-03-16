@@ -21,8 +21,5 @@
     "nodemailer": "^6.9.12",
     "nodemon": "^3.1.0",
     "python-shell": "^5.0.0"
-  },
-  "engines": {
-    "node": ">=18.18.0 <19.0.0"
   }
 }
