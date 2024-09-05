@@ -1,19 +1,19 @@
 const dbConnection = require("../config/database");
 const asyncHandelr = require("express-async-handler");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const ApiError = require("../utils/apiError");
 const sendEmail = require("../utils/sendEmail");
 
-// async function hashPassword(pass) {
-//     const saltRounds = 10;
-//     const hashedPassword = await new Promise((resolve, reject) => {
-//         bcrypt.hash(pass, saltRounds, function (err, hash) {
-//             if (err) reject(err)
-//             resolve(hash)
-//         });
-//     })
-//     return hashedPassword;
-// }
+async function hashPassword(pass) {
+    const saltRounds = 10;
+    const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(pass, saltRounds, function (err, hash) {
+            if (err) reject(err)
+            resolve(hash)
+        });
+    })
+    return hashedPassword;
+}
 
 const getUser = asyncHandelr(async (req, res, next) => {
     const [result] = await (await dbConnection).query(`SELECT fullName,email FROM users WHERE id = ?`, [req.params.id]);
@@ -39,8 +39,8 @@ const changeEmail = asyncHandelr(async (req, res, next) => {
 });
 
 const changePassword = asyncHandelr(async (req, res, next) => {
-    // const hashedPassword = await hashPassword(req.body.password);
-    const [result] = await (await dbConnection).query(`UPDATE users SET password=? WHERE id=?`, [req.body.password, req.params.id]);
+    const hashedPassword = await hashPassword(req.body.password);
+    const [result] = await (await dbConnection).query(`UPDATE users SET password=? WHERE id=?`, [hashedPassword, req.params.id]);
     res.status(200).json({ message: "Password Updated" });
 });
 

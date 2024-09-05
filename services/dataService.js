@@ -44,18 +44,17 @@ const storeData = asyncHandelr(async (req, res, next) => {
 const sendData = asyncHandelr(async (req, res, next) => {
     const id = req.params.id;
     const { age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal } = req.body;
-    // let options = {
-    //     mode: 'text',
-    //     scriptPath: '.',
-    //     args: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
-    // };
-    // PythonShell.run('main.py', options).then(async messages => {
-    //     const target = parseFloat(messages[0].slice(1, -1));
-    const target = Math.round(Math.random())
-    const [result] = await (await dbConnection).query(`INSERT INTO data values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-        [id, age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target]);
-    res.status(200).json({ Target: target });
-    // });
+    let options = {
+        mode: 'text',
+        scriptPath: '.',
+        args: [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+    };
+    PythonShell.run('main.py', options).then(async messages => {
+        const target = parseFloat(messages[0].slice(1, -1));
+        const [result] = await (await dbConnection).query(`INSERT INTO data values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+            [id, age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target]);
+        res.status(200).json({ Target: target });
+    });
 });
 
 const deleteAllData = asyncHandelr(async (req, res, next) => {
